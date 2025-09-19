@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for, session
 app = Flask(__name__)
-app.secret_key = 'sua_chave_secreta'
+app.secret_key = 'chavesecreta'
 
 @app.route("/", methods=["GET", "POST"])
 def dashboardmed():
