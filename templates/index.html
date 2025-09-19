@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Painel do Paciente</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <header>
+    <div class="paciente-header">
+      <img src="{{paciente.foto}}" alt="Foto do Paciente" class="foto">
+      <div>
+        <h1>{{ paciente.nome }}</h1>
+        <form method="post" style="display:inline;">
+          <label for="status">Status:</label>
+          <select name="status" id="status" onchange="this.form.submit()">
+            <option value="Em Atendimento" {% if paciente.status == "Em Atendimento" %}selected{% endif %}>Em Atendimento</option>
+            <option value="Concluído" {% if paciente.status == "Concluído" %}selected{% endif %}>Concluído</option>
+            <option value="Em Espera" {% if paciente.status == "Em Espera" %}selected{% endif %}>Em Espera</option>
+          </select>
+        </form>
+        <span class="status">{{ paciente.status }}</span>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="timeline">
+      <h2>Timeline do Paciente</h2>
+      <ul>
+        {% for item in paciente.timeline %}
+          <li>
+            <strong>{{ item.data }}</strong> - {{ item.evento }}
+          </li>
+        {% endfor %}
+      </ul>
+      <form method="post" style="margin-top:20px;">
+        <h3>Adicionar Exame/Direcionamento</h3>
+        <input type="date" name="data" required>
+        <input type="text" name="evento" placeholder="Nome do exame ou evento" required>
+        <input type="text" name="ala" placeholder="Ala/Destino" required>
+        <button type="submit">Adicionar</button>
+      </form>
+    </section>
+
+    <aside class="info">
+      <h2>Informações Rápidas</h2>
+      <p><b>Idade:</b> {{ paciente.idade }} anos</p>
+      <p><b>Sexo:</b> {{ paciente.sexo }}</p>
+      <p><b>Alergias:</b> {{ paciente.alergias }}</p>
+      <p><b>Condições:</b> {{ paciente.condicoes | join(', ') }}</p>
+    </aside>
+  </main>
+</body>
+</html>
